@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 })
 
 
-expressServer.listen(3000, () => {
-    console.log('Server is running @3000')
+expressServer.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running @${process.env.PORT || 3000}`)
 })
 
