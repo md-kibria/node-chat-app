@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+
+    <style>
+        * {
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        #nav {
+            height: 60px;
+            /* background-color: #2563eb; */
+            width: 100%;
+            max-width: 500px;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%);
+            margin: auto;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        #nav .nav-links {
+            display: flex;
+
+        }
+
+        #nav .nav-links p {
+            color: #fff;
+            cursor: pointer;
+            margin-left: 15px;
+            position: relative;
+        }
+
+        #nav .nav-links span {
+            position: absolute;
+            left: 13px;
+            bottom: 14px;
+            border-radius: 50%;
+            height: 15px;
+            width: 15px;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #nav h2 {
+            color: #fff;
+            font-size: 25px;
+        }
+
+        #msgHis {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 60px;
+            z-index: -1;
+        }
+
+        #msgHis li {
+            /* min-height: 45px; */
+            min-width: min-content;
+            max-width: 60% !important;
+            background-color: #16a34a;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            border-radius: 10px;
+            border-bottom-right-radius: 2px;
+            position: relative;
+        }
+
+        li span {
+            color: #555;
+            font-weight: 500;
+            position: absolute !important;
+            top: -22px;
+            left: 10px;
+            font-size: 15px;
+        }
+
+        #msgHis .mymsg {
+            background-color: #0369a1;
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+
+        .mymsg span {
+            left: auto;
+            right: 0 !;
+        }
+
+        #msgHis #connect {
+            margin: 10px auto;
+            background-color: white;
+            border: 1px solid #16a34a;
+            color: #16a34a;
+            justify-content: center;
+        }
+
+        #msgHis #disConnect {
+            margin: 10px auto;
+            background-color: white;
+            border: 1px solid crimson;
+            color: crimson;
+            justify-content: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container border rounded-0 d-flex flex-column justify-content-end"
+        style="max-width: 500px; height: calc(100vh); padding: 20px; border-radius: 10px; position: relative;">
+
+        <nav id="nav" class="bg-info">
+            <h2>Chat</h2>
+            <div class="nav-links">
+                <p>
+                    <svg id="user_user_check" data-name="user / user_check" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+                        <defs>
+                            <clipPath id="clip-path">
+                                <rect id="user_user_check_Background_Mask_"
+                                    data-name="user / user_check (Background/Mask)" width="24" height="24"
+                                    fill="none" />
+                            </clipPath>
+                        </defs>
+                        <rect id="user_user_check_Background_Mask_2" data-name="user / user_check (Background/Mask)"
+                            width="24" height="24" fill="none" />
+                        <g id="user_user_check-2" data-name="user / user_check" clip-path="url(#clip-path)">
+                            <path id="user_user_check-3" data-name="user / user_check"
+                                d="M2,15H0a6,6,0,0,1,12,0H10a4,4,0,1,0-8,0ZM13.994,11.41h0l-2.706-2.7L12.7,7.292l1.292,1.292,4.3-4.292,1.412,1.416-5.712,5.7ZM6,8a4,4,0,1,1,4-4A4.005,4.005,0,0,1,6,8ZM6,2A2,2,0,1,0,8,4.09l0,.4V4A2,2,0,0,0,6,2Z"
+                                transform="translate(2 4)" fill="#fff" />
+                        </g>
+                    </svg>
+
+
+                    <span id="total" class="badge badge-danger">0</span>
+                </p>
+                <p onclick="handleLogout()">
+                    <svg id="basic_exit" data-name="basic / exit" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+                        <defs>
+                            <clipPath id="clip-path">
+                                <rect id="basic_exit_Background_Mask_" data-name="basic / exit (Background/Mask)"
+                                    width="24" height="24" fill="none" />
+                            </clipPath>
+                        </defs>
+                        <g id="basic_exit-2" data-name="basic / exit">
+                            <rect id="basic_exit_Background_Mask_2" data-name="basic / exit (Background/Mask)"
+                                width="24" height="24" fill="none" />
+                            <g id="basic_exit-3" data-name="basic / exit" clip-path="url(#clip-path)">
+                                <path id="basic_exit-4" data-name="basic / exit"
+                                    d="M16,18H2a2,2,0,0,1-2-2V12H2v4H16V2H2V6H0V2A2,2,0,0,1,2,0H16a2,2,0,0,1,2,2V16A2,2,0,0,1,16,18ZM8,13V10H0V8H8V5l5,4L8,13Z"
+                                    transform="translate(3 3)" fill="#fff" />
+                            </g>
+                        </g>
+                    </svg>
+                </p>
+            </div>
+        </nav>
+
+        <div id="box" style="overflow-y: scroll;">
+            <ul id="msgHis">
+                <!-- <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis magni, aut sequi blanditiis aspernatur ducimus ipsam voluptas commodi impedit nemo exercitationem a est cumque, quia quod atque nulla dolorem rerum!</li>
+                <li id="mymsg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis maiores nostrum, perspiciatis fugit ipsum mollitia rerum consectetur quia libero dolore qui odio magni, aspernatur molestiae sit animi expedita eligendi saepe.</li>
+                <li id="connect">New user connected!</li>
+                <li id="disConnect">One user left the chat!</li> -->
+            </ul>
+        </div>
+
+
+        <div class="input-group">
+            <input id="msg" type="text" class="form-control" placeholder="Type message">
+            <button onclick="sendMsg()" type="submit" class="btn btn-primary ml-1">Send</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        // username
+        const username = localStorage.getItem('chat_username')
+
+        if (!username) {
+            window.location.replace('/login')
+        } else {
+            const socket = io()
+            let msgHis = document.getElementById('msgHis')
+            let box = document.getElementById('box')
+
+            // send message function
+            function sendMsg() {
+                let message = {
+                    msg: document.getElementById('msg').value,
+                    username: username
+                }
+                socket.emit('chat', message)
+                document.getElementById('msg').value = ''
+            }
+
+            // logout handler
+            function handleLogout() {
+                localStorage.removeItem('chat_username')
+                window.location.replace('/login')
+            }
+
+            // total connected users
+            socket.on('total', (totalNum) => {
+                let total = document.getElementById('total')
+                total.textContent = totalNum
+            })
+
+            // call user status message
+            window.addEventListener('load', () => {
+                socket.emit('load', username)
+            })
+            
+            // new connected user message
+            socket.on('new', (msg) => {
+                let newItem = document.createElement('li')
+                newItem.id = 'connect'
+                newItem.textContent = msg
+
+                msgHis.appendChild(newItem)
+                // scroll to bottom
+                box.scrollTop = box.scrollHeight
+            })
+
+            // left user message
+            socket.on('left', (msg) => {
+                let leftItem = document.createElement('li')
+                leftItem.id = 'disConnect'
+                leftItem.textContent = msg
+
+                msgHis.appendChild(leftItem)
+                // scroll to bottom 
+                box.scrollTop = box.scrollHeight
+
+            })
+
+            // chat transfar 
+            socket.on('chat_transfar', (message) => {
+                let listItem = document.createElement('li')
+
+                let nameItem = document.createElement('span')
+                nameItem.textContent = message.username
+                listItem.appendChild(nameItem)
+
+                let msgItem = document.createElement('p')
+                msgItem.textContent = message.msg
+                listItem.appendChild(msgItem)
+
+                listItem.className = username === message.username ? 'mymsg' : ''
+
+                // let msgHis = document.getElementById('msgHis')
+                msgHis.appendChild(listItem)
+
+                // scroll to bottom
+                box.scrollTop = box.scrollHeight
+
+            })
+
+            // window.addEventListener('load', () => {
+            //     let box = document.getElementById('box')
+            //     box.scrollTop = box.scrollHeight
+            // })
+
+        }
+    </script>
+</body>
+
+</html>
